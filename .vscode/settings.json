@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "editor.fontFamily": "Inconsolata",
+    "editor.insertSpaces": false,
+    
+    "files.eol": "\n",
+    "files.autoSave": "onFocusChange"
+}

@@ -1,0 +1,6 @@
+--macro snow.Set.main("luxe.Engine")
+--macro snow.Set.ident("com.luxeengine.empty")
+
+--macro snow.Set.config("config.json")
+
+

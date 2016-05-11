@@ -1,0 +1,80 @@
+#automatically generated do not edit
+#@date Tue May 10 2016 23:34:31 GMT-0500 (Central Daylight Time)
+-main luxe.Game
+-cpp bin/windows.build/cpp
+-D no-compilation
+-D windows
+-D arch-32
+-D desktop
+-D hxcpp_static_std
+-D snow_no_main
+-D luxe_native
+-D parcel_thread_disabled
+-D snow_native
+-D luxe
+-D hxcpp
+-D snow
+-D linc_openal
+-D linc_timestamp
+-D linc_stb
+-D linc_ogg
+-D linc_sdl
+-D linc_opengl
+-cp c:\users\alexa\documents\luxegame\bin\windows.build\haxe\
+-cp c:\haxetoolkit\haxe\lib\luxe\git\
+-cp c:\users\alexa\documents\luxegame\src\
+#@begin-cache -lib hxcpp
+-cp c:\haxetoolkit\haxe\lib\hxcpp\3,2,205\
+-D hxcpp=3.2.205
+#@end-cache
+#@begin-cache -lib linc_opengl
+-cp c:\haxetoolkit\haxe\lib\linc_opengl\git\
+-D linc_opengl=0.0.0
+#@end-cache
+#@begin-cache -lib linc_sdl
+-cp c:\haxetoolkit\haxe\lib\linc_sdl\git\
+-D linc_sdl=0.0.0
+#@end-cache
+#@begin-cache -lib linc_ogg
+-cp c:\haxetoolkit\haxe\lib\linc_ogg\git\
+-D linc_ogg=0.0.0
+#@end-cache
+#@begin-cache -lib linc_stb
+-cp c:\haxetoolkit\haxe\lib\linc_stb\git\
+-D linc_stb=0.0.0
+#@end-cache
+#@begin-cache -lib linc_timestamp
+-cp c:\haxetoolkit\haxe\lib\linc_timestamp\git\
+-D linc_timestamp=0.0.0
+#@end-cache
+#@begin-cache -lib linc_openal
+-cp c:\haxetoolkit\haxe\lib\linc_openal\git\
+-D linc_openal=0.0.0
+#@end-cache
+#@begin-cache -lib snow
+-cp c:\haxetoolkit\haxe\lib\snow\git\
+-D snow=1.0.0-alpha.2
+#@end-cache
+#@begin-cache -lib luxe
+-cp c:\haxetoolkit\haxe\lib\luxe\git\
+-D luxe=1.0.0-alpha
+#@end-cache
+--macro snow.Set.assets("snow.core.native.assets.Assets")
+--macro snow.Set.runtime("snow.modules.sdl.Runtime")
+--macro snow.Set.audio("snow.modules.openal.Audio")
+--macro snow.Set.io("snow.modules.sdl.IO")
+-resource version@version
+-resource phoenix/defaults/shaders/vert.glsl@default.vert.glsl
+-resource phoenix/defaults/shaders/frag.glsl@default.frag.glsl
+-resource phoenix/defaults/shaders/frag.textured.glsl@default.frag.textured.glsl
+-resource phoenix/defaults/shaders/frag.bitmapfont.glsl@default.frag.bitmapfont.glsl
+-resource phoenix/defaults/shaders/vert.gl3.glsl@default.vert.gl3.glsl
+-resource phoenix/defaults/shaders/frag.gl3.glsl@default.frag.gl3.glsl
+-resource phoenix/defaults/shaders/frag.textured.gl3.glsl@default.frag.textured.gl3.glsl
+-resource phoenix/defaults/shaders/frag.bitmapfont.gl3.glsl@default.frag.bitmapfont.gl3.glsl
+-resource luxe/defaults/fonts/default.png@default.png
+-resource luxe/defaults/fonts/default.fnt@default.fnt
+bin\windows.build\snow.hxml
+
+
+-cp c:\users\alexa\appdata\local\temp\03a82bdc3ced14723413df78a6aa19835e6659b6
