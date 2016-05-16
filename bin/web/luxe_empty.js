@@ -1572,17 +1572,28 @@ luxe_Sprite.prototype = $extend(luxe_Visual.prototype,{
 });
 var Player = function() {
 	luxe_Sprite.call(this,{ name : "player", pos : Luxe.core.screen.get_mid(), color : new phoenix_Color().rgb(3447003), size : new phoenix_Vector(128,128)});
-	this.add(new Reticle());
+	var arrowOptions = { size : new phoenix_Vector(16,16), color : new phoenix_Color().rgb(3447003), geometry : Luxe.draw.ngon({ r : 32, sides : 3, color : new phoenix_Color().rgb(3447003), solid : true, x : Luxe.core.screen.get_mid().x, y : Luxe.core.screen.get_mid().y - 144}), no_geometry : false};
+	this.arrow = new luxe_Visual(arrowOptions);
+	this.arrow.set_pos(this.get_pos());
+	this.arrow.set_origin(new phoenix_Vector(this.get_pos().x,this.get_pos().y));
 };
 $hxClasses["Player"] = Player;
 Player.__name__ = ["Player"];
 Player.__super__ = luxe_Sprite;
 Player.prototype = $extend(luxe_Sprite.prototype,{
-	init: function() {
+	onmousemove: function(e) {
+		this.arrow.set_rotation_z(Math.atan2(e.pos.y - this.get_pos().y,e.pos.x - this.get_pos().x) * 180 / Math.PI + 90);
+		this.lastMousePos = e.pos;
+	}
+	,update: function(dt) {
+	}
+	,init: function() {
 		luxe_Sprite.prototype.init.call(this);
+		this._listen(19,$bind(this,this.onmousemove),true);
 	}
 	,ondestroy: function() {
 		luxe_Sprite.prototype.ondestroy.call(this);
+		this._unlisten(19,$bind(this,this.onmousemove),true);
 	}
 	,__class__: Player
 });
@@ -1629,194 +1640,6 @@ Reflect.deleteField = function(o,field) {
 	delete(o[field]);
 	return true;
 };
-var luxe_ID = function(_name,_id) {
-	if(_id == null) _id = "";
-	if(_name == null) _name = "";
-	this.name = "";
-	this.name = _name;
-	if(_id == "") this.id = Luxe.utils.uniqueid(); else this.id = _id;
-};
-$hxClasses["luxe.ID"] = luxe_ID;
-luxe_ID.__name__ = ["luxe","ID"];
-luxe_ID.prototype = {
-	__class__: luxe_ID
-};
-var luxe_Component = function(_options) {
-	var _name = "";
-	if(_options != null) {
-		if(_options.name != null) _name = _options.name;
-	}
-	luxe_ID.call(this,_name == ""?Luxe.utils.uniqueid():_name);
-};
-$hxClasses["luxe.Component"] = luxe_Component;
-luxe_Component.__name__ = ["luxe","Component"];
-luxe_Component.__super__ = luxe_ID;
-luxe_Component.prototype = $extend(luxe_ID.prototype,{
-	init: function() {
-	}
-	,update: function(dt) {
-	}
-	,onadded: function() {
-	}
-	,onremoved: function() {
-	}
-	,onfixedupdate: function(rate) {
-	}
-	,onreset: function() {
-	}
-	,ondestroy: function() {
-	}
-	,onkeyup: function(event) {
-	}
-	,onkeydown: function(event) {
-	}
-	,ontextinput: function(event) {
-	}
-	,oninputdown: function(event) {
-	}
-	,oninputup: function(event) {
-	}
-	,onmousedown: function(event) {
-	}
-	,onmouseup: function(event) {
-	}
-	,onmousemove: function(event) {
-	}
-	,onmousewheel: function(event) {
-	}
-	,ontouchdown: function(event) {
-	}
-	,ontouchup: function(event) {
-	}
-	,ontouchmove: function(event) {
-	}
-	,ongamepadup: function(event) {
-	}
-	,ongamepaddown: function(event) {
-	}
-	,ongamepadaxis: function(event) {
-	}
-	,ongamepaddevice: function(event) {
-	}
-	,onwindowmoved: function(event) {
-	}
-	,onwindowresized: function(event) {
-	}
-	,onwindowsized: function(event) {
-	}
-	,onwindowminimized: function(event) {
-	}
-	,onwindowrestored: function(event) {
-	}
-	,add: function(component) {
-		return this.get_entity().add(component);
-	}
-	,remove: function(_name) {
-		return this.get_entity().remove(_name);
-	}
-	,get: function(_name,in_children) {
-		if(in_children == null) in_children = false;
-		return this.get_entity().get(_name,in_children);
-	}
-	,get_any: function(_name,in_children,first_only) {
-		if(first_only == null) first_only = true;
-		if(in_children == null) in_children = false;
-		return this.get_entity().get_any(_name,in_children,first_only);
-	}
-	,has: function(_name) {
-		return this.get_entity().has(_name);
-	}
-	,_detach_entity: function() {
-		if(this.get_entity() != null) {
-		}
-	}
-	,_attach_entity: function() {
-		if(this.get_entity() != null) {
-		}
-	}
-	,set_entity: function(_entity) {
-		this._detach_entity();
-		this.entity = _entity;
-		this._attach_entity();
-		return this.get_entity();
-	}
-	,get_entity: function() {
-		return this.entity;
-	}
-	,set_pos: function(_p) {
-		return this.get_entity().get_transform().set_pos(_p);
-	}
-	,get_pos: function() {
-		return this.get_entity().get_transform().get_pos();
-	}
-	,set_rotation: function(_r) {
-		return this.get_entity().get_transform().set_rotation(_r);
-	}
-	,get_rotation: function() {
-		return this.get_entity().get_transform().get_rotation();
-	}
-	,set_scale: function(_s) {
-		return this.get_entity().get_transform().set_scale(_s);
-	}
-	,get_scale: function() {
-		return this.get_entity().get_transform().get_scale();
-	}
-	,set_origin: function(_o) {
-		return this.get_entity().get_transform().set_origin(_o);
-	}
-	,get_origin: function() {
-		return this.get_entity().get_transform().get_origin();
-	}
-	,set_transform: function(_o) {
-		return this.get_entity().set_transform(_o);
-	}
-	,get_transform: function() {
-		return this.get_entity().get_transform();
-	}
-	,entity_pos_change: function(_pos) {
-	}
-	,entity_scale_change: function(_scale) {
-	}
-	,entity_rotation_change: function(_rotation) {
-	}
-	,entity_origin_change: function(_origin) {
-	}
-	,entity_parent_change: function(_parent) {
-	}
-	,toString: function() {
-		return "luxe Component: " + this.name + " on " + this.get_entity().get_name() + " / id: " + this.id;
-	}
-	,__class__: luxe_Component
-	,__properties__: {set_origin:"set_origin",get_origin:"get_origin",set_scale:"set_scale",get_scale:"get_scale",set_rotation:"set_rotation",get_rotation:"get_rotation",set_pos:"set_pos",get_pos:"get_pos",set_entity:"set_entity",get_entity:"get_entity"}
-});
-var Reticle = function(_options) {
-	luxe_Component.call(this,_options);
-};
-$hxClasses["Reticle"] = Reticle;
-Reticle.__name__ = ["Reticle"];
-Reticle.__super__ = luxe_Component;
-Reticle.prototype = $extend(luxe_Component.prototype,{
-	init: function() {
-		this.player = this.get_entity();
-		var arrowOptions = { size : new phoenix_Vector(16,16), color : new phoenix_Color().rgb(3447003), geometry : Luxe.draw.ngon({ r : 32, sides : 3, color : new phoenix_Color().rgb(3447003), solid : true, x : Luxe.core.screen.get_mid().x, y : Luxe.core.screen.get_mid().y - 144}), no_geometry : false};
-		this.arrow = new luxe_Visual(arrowOptions);
-		this.arrow.set_pos(this.player.get_pos());
-		this.arrow.set_origin(new phoenix_Vector(this.player.get_pos().x,this.player.get_pos().y));
-		this.get_entity()._listen(19,$bind(this,this.onmousemove));
-	}
-	,onmousemove: function(e) {
-		this.arrow.set_rotation_z(Math.atan2(e.pos.y - this.player.get_pos().y,e.pos.x - this.player.get_pos().x) * 180 / Math.PI + 90);
-	}
-	,ondestroy: function() {
-		luxe_Component.prototype.ondestroy.call(this);
-		this.get_entity()._unlisten(19,$bind(this,this.onmousemove));
-	}
-	,onremoved: function() {
-		luxe_Component.prototype.onremoved.call(this);
-		this.get_entity()._unlisten(19,$bind(this,this.onmousemove));
-	}
-	,__class__: Reticle
-});
 var Std = function() { };
 $hxClasses["Std"] = Std;
 Std.__name__ = ["Std"];
@@ -3994,6 +3817,166 @@ luxe_Camera.prototype = $extend(luxe_Entity.prototype,{
 	}
 	,__class__: luxe_Camera
 	,__properties__: $extend(luxe_Entity.prototype.__properties__,{set_size_mode:"set_size_mode",get_size_mode:"get_size_mode",set_size:"set_size",get_size:"get_size",set_minimum_zoom:"set_minimum_zoom",get_minimum_zoom:"get_minimum_zoom",set_zoom:"set_zoom",get_zoom:"get_zoom",set_center:"set_center",get_center:"get_center",set_viewport:"set_viewport",get_viewport:"get_viewport"})
+});
+var luxe_ID = function(_name,_id) {
+	if(_id == null) _id = "";
+	if(_name == null) _name = "";
+	this.name = "";
+	this.name = _name;
+	if(_id == "") this.id = Luxe.utils.uniqueid(); else this.id = _id;
+};
+$hxClasses["luxe.ID"] = luxe_ID;
+luxe_ID.__name__ = ["luxe","ID"];
+luxe_ID.prototype = {
+	__class__: luxe_ID
+};
+var luxe_Component = function(_options) {
+	var _name = "";
+	if(_options != null) {
+		if(_options.name != null) _name = _options.name;
+	}
+	luxe_ID.call(this,_name == ""?Luxe.utils.uniqueid():_name);
+};
+$hxClasses["luxe.Component"] = luxe_Component;
+luxe_Component.__name__ = ["luxe","Component"];
+luxe_Component.__super__ = luxe_ID;
+luxe_Component.prototype = $extend(luxe_ID.prototype,{
+	init: function() {
+	}
+	,update: function(dt) {
+	}
+	,onadded: function() {
+	}
+	,onremoved: function() {
+	}
+	,onfixedupdate: function(rate) {
+	}
+	,onreset: function() {
+	}
+	,ondestroy: function() {
+	}
+	,onkeyup: function(event) {
+	}
+	,onkeydown: function(event) {
+	}
+	,ontextinput: function(event) {
+	}
+	,oninputdown: function(event) {
+	}
+	,oninputup: function(event) {
+	}
+	,onmousedown: function(event) {
+	}
+	,onmouseup: function(event) {
+	}
+	,onmousemove: function(event) {
+	}
+	,onmousewheel: function(event) {
+	}
+	,ontouchdown: function(event) {
+	}
+	,ontouchup: function(event) {
+	}
+	,ontouchmove: function(event) {
+	}
+	,ongamepadup: function(event) {
+	}
+	,ongamepaddown: function(event) {
+	}
+	,ongamepadaxis: function(event) {
+	}
+	,ongamepaddevice: function(event) {
+	}
+	,onwindowmoved: function(event) {
+	}
+	,onwindowresized: function(event) {
+	}
+	,onwindowsized: function(event) {
+	}
+	,onwindowminimized: function(event) {
+	}
+	,onwindowrestored: function(event) {
+	}
+	,add: function(component) {
+		return this.get_entity().add(component);
+	}
+	,remove: function(_name) {
+		return this.get_entity().remove(_name);
+	}
+	,get: function(_name,in_children) {
+		if(in_children == null) in_children = false;
+		return this.get_entity().get(_name,in_children);
+	}
+	,get_any: function(_name,in_children,first_only) {
+		if(first_only == null) first_only = true;
+		if(in_children == null) in_children = false;
+		return this.get_entity().get_any(_name,in_children,first_only);
+	}
+	,has: function(_name) {
+		return this.get_entity().has(_name);
+	}
+	,_detach_entity: function() {
+		if(this.get_entity() != null) {
+		}
+	}
+	,_attach_entity: function() {
+		if(this.get_entity() != null) {
+		}
+	}
+	,set_entity: function(_entity) {
+		this._detach_entity();
+		this.entity = _entity;
+		this._attach_entity();
+		return this.get_entity();
+	}
+	,get_entity: function() {
+		return this.entity;
+	}
+	,set_pos: function(_p) {
+		return this.get_entity().get_transform().set_pos(_p);
+	}
+	,get_pos: function() {
+		return this.get_entity().get_transform().get_pos();
+	}
+	,set_rotation: function(_r) {
+		return this.get_entity().get_transform().set_rotation(_r);
+	}
+	,get_rotation: function() {
+		return this.get_entity().get_transform().get_rotation();
+	}
+	,set_scale: function(_s) {
+		return this.get_entity().get_transform().set_scale(_s);
+	}
+	,get_scale: function() {
+		return this.get_entity().get_transform().get_scale();
+	}
+	,set_origin: function(_o) {
+		return this.get_entity().get_transform().set_origin(_o);
+	}
+	,get_origin: function() {
+		return this.get_entity().get_transform().get_origin();
+	}
+	,set_transform: function(_o) {
+		return this.get_entity().set_transform(_o);
+	}
+	,get_transform: function() {
+		return this.get_entity().get_transform();
+	}
+	,entity_pos_change: function(_pos) {
+	}
+	,entity_scale_change: function(_scale) {
+	}
+	,entity_rotation_change: function(_rotation) {
+	}
+	,entity_origin_change: function(_origin) {
+	}
+	,entity_parent_change: function(_parent) {
+	}
+	,toString: function() {
+		return "luxe Component: " + this.name + " on " + this.get_entity().get_name() + " / id: " + this.id;
+	}
+	,__class__: luxe_Component
+	,__properties__: {set_origin:"set_origin",get_origin:"get_origin",set_scale:"set_scale",get_scale:"get_scale",set_rotation:"set_rotation",get_rotation:"get_rotation",set_pos:"set_pos",get_pos:"get_pos",set_entity:"set_entity",get_entity:"get_entity"}
 });
 var luxe_Debug = function(_app) {
 	this.last_cursor_grab = false;
