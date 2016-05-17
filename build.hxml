@@ -10,6 +10,7 @@
 -D parcel_thread_disabled
 -D snow_native
 -D luxe
+-D nape
 -D hxcpp
 -D snow
 -D linc_openal
@@ -22,6 +23,7 @@
 -cp C:/HaxeToolkit/haxe/lib/luxe/git/
 -cp src/
 -lib hxcpp
+-lib nape
 -lib linc_opengl
 -lib linc_sdl
 -lib linc_ogg

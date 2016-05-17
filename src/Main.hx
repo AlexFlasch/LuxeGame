@@ -1,3 +1,8 @@
+import nape.geom.Vec2;
+import nape.phys.Body;
+import nape.phys.BodyType;
+import nape.shape.Polygon;
+import nape.phys.Material;
 
 import luxe.GameConfig;
 import luxe.Input;
@@ -6,13 +11,16 @@ import luxe.Color;
 import luxe.Vector;
 import luxe.Visual;
 import luxe.options.VisualOptions;
-import phoenix.Transform;
+import luxe.physics.nape.DebugDraw;
 
+import phoenix.Transform;
 
 class Main extends luxe.Game {
     
     public var player:Player;
-    public var speed:Float;
+    public var border:Body;
+    
+    public var drawer:DebugDraw;
 
     override function config(config:GameConfig) {
         
@@ -21,7 +29,7 @@ class Main extends luxe.Game {
         config.window.height = 640;
         config.window.fullscreen = false;
         
-        speed = 1000.0;
+        config.render.antialiasing = 4;
 
         return config;
         
@@ -31,15 +39,9 @@ class Main extends luxe.Game {
         
         player = new Player();
        
-        setupInput(); 
+        setupWorld();
         
     } // ready
-    
-    override function onkeydown(e:KeyEvent) {
-        
-        
-        
-    } // onkeydown
 
     override function onkeyup(e:KeyEvent) {
         
@@ -48,37 +50,41 @@ class Main extends luxe.Game {
         }
         
     } // onkeyup
-    
-    override function onmousemove(e:MouseEvent) {
-        
-        
-        
-    } // onmousemove
 
     override function update(dt:Float) {
         
-        if(Luxe.input.inputdown('left')) {
-            player.pos.x -= speed * dt;
-        }
-        if(Luxe.input.inputdown('right')) {
-            player.pos.x += speed * dt;
-        }
-        if(Luxe.input.inputdown('up')) {
-            player.pos.y -= speed * dt;
-        }
-        if(Luxe.input.inputdown('down')) {
-            player.pos.y += speed * dt;
-        }
+        Luxe.draw.text({
+            color: new Color().rgb(0x26A65B),
+            pos: new Vector(15, 15),
+            point_size: 24,
+            text: 'player.isGrounded: ' + player.isGrounded
+        });
         
     } // update
     
-    function setupInput() {
+    function setupWorld() {
         
-        Luxe.input.bind_key('left', Key.key_a);
-        Luxe.input.bind_key('right', Key.key_d);
-        Luxe.input.bind_key('up', Key.key_w);
-        Luxe.input.bind_key('down', Key.key_s);
+        drawer = new DebugDraw();
+        Luxe.physics.nape.debugdraw = drawer;
         
-    } // setupInput
+        var w = Luxe.screen.w;
+        var h = Luxe.screen.h;
+        
+        border = new Body(BodyType.STATIC);
+        
+        var bottomBorder = new Polygon(Polygon.rect(0, 0, 2, -1));
+        bottomBorder.material = Material.sand();
+        
+        border.shapes.add(bottomBorder);
+        border.shapes.add(new Polygon(Polygon.rect(0, h, w, 1)));
+        border.shapes.add(new Polygon(Polygon.rect(0, 0, -1, h)));
+        border.shapes.add(new Polygon(Polygon.rect(w, 0, 1, h)));
+        border.space = Luxe.physics.nape.space;
+        
+        World.bodies.set('border', border);
+        
+        drawer.add(border);
+        
+    } // setupWorld
 
 } //Main
